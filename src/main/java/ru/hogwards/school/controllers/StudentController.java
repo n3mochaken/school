@@ -48,7 +48,7 @@ public class StudentController {
         if (foundedStudent == null) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(student);
+        return ResponseEntity.ok(foundedStudent);
     }
 
     @DeleteMapping("{id}")
