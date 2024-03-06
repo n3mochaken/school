@@ -52,13 +52,14 @@ public class StudentController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Student> deleteStudent(@PathVariable Long id) {
-        return new ResponseEntity<>(studentService.deleteStudent(id), HttpStatus.OK);
+    public ResponseEntity deleteStudent(@PathVariable Long id) {
+        studentService.deleteStudent(id);
+        return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/ageFilter/{age}")
-    public ResponseEntity<Collection<Student>> getStudentByAge(@PathVariable int age) {
-        return ResponseEntity.ok(studentService.getStudentsByAge(age));
-    }
+//    @GetMapping("/ageFilter/{age}")
+//    public ResponseEntity<Collection<Student>> getStudentByAge(@PathVariable int age) {
+//        return ResponseEntity.ok(studentService.getStudentsByAge(age));
+//    }
 
 }
