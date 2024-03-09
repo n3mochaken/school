@@ -4,6 +4,7 @@ package ru.hogwards.school.controllers;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.hogwards.school.model.Faculty;
 import ru.hogwards.school.model.Student;
 import ru.hogwards.school.services.StudentService;
 
@@ -30,9 +31,21 @@ public class StudentController {
     }
 
     @GetMapping
-    public ResponseEntity<Collection<Student>> getAllStudents() {
+    public ResponseEntity<Collection<Student>> findStudent(@RequestParam(required = false) Integer min,
+                                                           @RequestParam(required = false) Integer max) {
+
+        if (min > 0 && max > 0 && max >= min) {
+            return ResponseEntity.ok(studentService.findByAgeBetween(min, max));
+        }
+
+
         return ResponseEntity.ok(studentService.getAllStudents());
     }
+
+//    @GetMapping
+//    public ResponseEntity<Collection<Student>> getAllStudents() {
+//        return ResponseEntity.ok(studentService.getAllStudents());
+//    }
 
     @PostMapping
     public ResponseEntity<Student> createStudent(@RequestBody Student student) {
@@ -56,6 +69,8 @@ public class StudentController {
         studentService.deleteStudent(id);
         return ResponseEntity.ok().build();
     }
+
+
 
 //    @GetMapping("/ageFilter/{age}")
 //    public ResponseEntity<Collection<Student>> getStudentByAge(@PathVariable int age) {

@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.hogwards.school.model.Faculty;
+import ru.hogwards.school.model.Student;
 import ru.hogwards.school.services.FacultyService;
 
 import java.util.Collection;
@@ -17,6 +18,19 @@ public class FacultyController {
         this.facultyService = facultyService;
     }
 
+
+    @GetMapping
+    public ResponseEntity<Collection<Faculty>> findByParamOfFaculty(@RequestParam(required = false) String color,
+                                                                    @RequestParam(required = false) String name) {
+        if (name != null && !name.isBlank()) {
+            return ResponseEntity.ok(facultyService.findByName(name));
+        }
+        if (color != null && !color.isBlank()) {
+            return ResponseEntity.ok(facultyService.findByColor(color));
+        }
+        return ResponseEntity.ok(facultyService.getAllFaculty());
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity getFacultyInfo(@PathVariable Long id) {
         Faculty faculty = facultyService.findFaculty(id);
@@ -26,10 +40,6 @@ public class FacultyController {
         return ResponseEntity.ok(faculty);
     }
 
-    @GetMapping
-    public ResponseEntity<Collection<Faculty>> getAllStudents() {
-        return ResponseEntity.ok(facultyService.getAllFaculty());
-    }
 
     @PostMapping
     public ResponseEntity<Faculty> createFaculty(@RequestBody Faculty faculty) {
@@ -50,6 +60,8 @@ public class FacultyController {
         facultyService.deleteFaculty(id);
         return ResponseEntity.ok().build();
     }
+
+
 
 //    @GetMapping("/facultyFilter/{color}")
 //    public ResponseEntity<Collection<Faculty>> getStudentByAge(@PathVariable String color) {

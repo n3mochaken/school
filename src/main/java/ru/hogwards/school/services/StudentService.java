@@ -1,12 +1,14 @@
 package ru.hogwards.school.services;
 
 import org.springframework.stereotype.Service;
+import ru.hogwards.school.model.Faculty;
 import ru.hogwards.school.model.Student;
 import ru.hogwards.school.repositories.StudentRepository;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 
@@ -40,6 +42,14 @@ public class StudentService {
     public Collection<Student> getAllStudents() {
         return studentRepository.findAll();
     }
+
+    public Collection<Student> findByAgeBetween (int min, int max) {
+        return studentRepository.findByAgeBetween(min, max);
+    }
+
+
+
+
 
 //    public List<Student> getStudentsByAge(int age) {
 //        List<Student> studentsByAge = new ArrayList<>();

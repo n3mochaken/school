@@ -1,7 +1,9 @@
 package ru.hogwards.school.services;
 
 import org.springframework.stereotype.Service;
+import ru.hogwards.school.exeptions.FacultyNotFoundException;
 import ru.hogwards.school.model.Faculty;
+import ru.hogwards.school.model.Student;
 import ru.hogwards.school.repositories.FacultyRepository;
 
 import java.util.ArrayList;
@@ -39,6 +41,16 @@ public class FacultyService {
     public Collection<Faculty> getAllFaculty() {
         return facultyRepository.findAll();
     }
+
+    public Collection<Faculty> findByColor(String color) {
+        return facultyRepository.findFacultyByColorIgnoreCase(color);
+    }  public Collection<Faculty> findByName(String name) {
+        return facultyRepository.findFacultyByNameIgnoreCase(name);
+    }
+
+
+
+
 
 //    public List<Faculty> getFacultyByColor(String color) {
 //        List<Faculty> facultyByColor = new ArrayList<>();
