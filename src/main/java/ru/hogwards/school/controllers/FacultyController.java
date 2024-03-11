@@ -61,6 +61,14 @@ public class FacultyController {
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping("/getStudentsByFaculty")
+    public ResponseEntity<Collection<Student>> getStudentsByFaculty(@RequestParam Long id) {
+        Collection<Student> studentsOnFaculty = facultyService.getAllStudentsOfFaculty(id);
+        if (studentsOnFaculty == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(studentsOnFaculty);
+    }
 
 
 //    @GetMapping("/facultyFilter/{color}")

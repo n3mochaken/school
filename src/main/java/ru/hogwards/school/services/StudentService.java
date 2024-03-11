@@ -48,8 +48,9 @@ public class StudentService {
 
     }
 
-
-
+    public Faculty findFacultyOfStudent(Long id) {
+        return findStudent(id).getFaculty();
+    }
 
 
 //    public List<Student> getStudentsByAge(int age) {

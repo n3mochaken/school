@@ -70,6 +70,11 @@ public class StudentController {
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping ("/facultyOfStudent/{id}")
+    public Faculty findFaculty (@PathVariable Long id){
+        return studentService.findFacultyOfStudent(id);
+    }
+
 
 
 //    @GetMapping("/ageFilter/{age}")
