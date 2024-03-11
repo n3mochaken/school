@@ -48,7 +48,7 @@ public class StudentService {
 
     }
 
-    public Faculty findFacultyOfStudent(Long id) {
+    public Faculty findFacultyOfStudent(long id) {
         return findStudent(id).getFaculty();
     }
 
