@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.hogwards.school.model.Avatar;
 import ru.hogwards.school.services.AvatarService;
-import ru.hogwards.school.services.StudentService;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -19,16 +18,16 @@ import java.nio.file.Path;
 
 
 @RestController
-@RequestMapping("/avatar")
+@RequestMapping("/loadAvatar")
 
 public class AvatarController {
 
     private final AvatarService avatarService;
-    private final StudentService studentService;
 
-    public AvatarController(AvatarService avatarService, StudentService studentService) {
+
+    public AvatarController(AvatarService avatarService) {
         this.avatarService = avatarService;
-        this.studentService = studentService;
+
     }
 
     @PostMapping(value = "/{id}/avatar", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -44,7 +43,6 @@ public class AvatarController {
     public ResponseEntity<byte[]> downloadAvatar(@PathVariable Long id) {
         Avatar avatar = avatarService.findAvatar(id);
         HttpHeaders headers = new HttpHeaders();
-
         headers.setContentType(MediaType.parseMediaType(avatar.getMediaType()));
         headers.setContentLength(avatar.getData().length);
 
