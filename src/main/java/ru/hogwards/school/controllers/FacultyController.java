@@ -1,6 +1,5 @@
 package ru.hogwards.school.controllers;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.hogwards.school.model.Faculty;
@@ -32,18 +31,14 @@ public class FacultyController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity getFacultyInfo(@PathVariable Long id) {
-        Faculty faculty = facultyService.findFaculty(id);
-        if (faculty == null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
-        return ResponseEntity.ok(faculty);
+    public Faculty getFacultyInfo(@PathVariable Long id) {
+        return facultyService.findFaculty(id);
     }
 
 
     @PostMapping
-    public ResponseEntity<Faculty> createFaculty(@RequestBody Faculty faculty) {
-        return new ResponseEntity<>(facultyService.createFaculty(faculty), HttpStatus.CREATED);
+    public Faculty createFaculty(@RequestBody Faculty faculty) {
+        return  facultyService.createFaculty(faculty);
     }
 
     @PutMapping
