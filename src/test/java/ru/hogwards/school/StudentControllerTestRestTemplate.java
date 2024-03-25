@@ -67,16 +67,16 @@ public class StudentControllerTestRestTemplate {
         JSONAssert.assertEquals(expected,response.getBody(),false);
     }
 
-//    @Test
-//    void testGetListOfStudents (){
-//        ResponseEntity<List<Student >> response = restTemplate.exchange("http://localhost:" + port + "/students", HttpMethod.GET, null, new ParameterizedTypeReference<>() {
-//        });
-//
-//        assertEquals(HttpStatus.OK, response.getStatusCode());
-//        assertEquals(MediaType.APPLICATION_JSON, response.getHeaders().getContentType());
-//        List<Student> actualStudents = response.getBody().stream().collect(Collectors.toList());
-//        assertEquals(addedStudents,actualStudents);
-//    }
+    @Test
+    void testGetListOfStudents (){
+        ResponseEntity<List<Student >> response = restTemplate.exchange("http://localhost:" + port + "/students/all", HttpMethod.GET, null, new ParameterizedTypeReference<>() {
+        });
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(MediaType.APPLICATION_JSON, response.getHeaders().getContentType());
+        List<Student> actualStudents = response.getBody().stream().collect(Collectors.toList());
+        assertEquals(addedStudents,actualStudents);
+    }
 
     @Test
     void createStudent()throws JsonProcessingException,JSONException{
@@ -96,9 +96,9 @@ public class StudentControllerTestRestTemplate {
         student.setId(addedStudents.get(0).getId());
 
         ResponseEntity<Student> response= this.restTemplate.
-                exchange("/students/"+addedStudents.get(0).getId(),HttpMethod.PUT,entity,Student.class);
+                exchange("/students/",HttpMethod.PUT,entity,Student.class);
 
-                assertEquals(HttpStatus.OK,response.getStatusCode());
+                assertEquals(response.getStatusCode(),HttpStatus.OK);
                 assertEquals(student,response.getBody());
     }
 

@@ -42,10 +42,10 @@ public class StudentController {
         return ResponseEntity.ok(studentService.getAllStudents());
     }
 
-//    @GetMapping
-//    public ResponseEntity<Collection<Student>> getAllStudents() {
-//        return ResponseEntity.ok(studentService.getAllStudents());
-//    }
+    @GetMapping("/all")
+    public ResponseEntity<Collection<Student>> getAllStudents() {
+        return ResponseEntity.ok(studentService.getAllStudents());
+    }
 
     @PostMapping
     public ResponseEntity<Student> createStudent(@RequestBody Student student) {
