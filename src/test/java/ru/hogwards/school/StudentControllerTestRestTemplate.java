@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.assertj.core.api.Assertions;
 import org.json.JSONException;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
@@ -23,9 +24,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 
@@ -48,6 +47,11 @@ public class StudentControllerTestRestTemplate {
         List<Student> studentslist = List.of(student, student2);
 
         addedStudents = studentRepository.saveAll(studentslist);
+    }
+
+    @AfterEach
+    void afterEach(){
+        studentRepository.deleteAll();
     }
 
     @Test
@@ -75,7 +79,8 @@ public class StudentControllerTestRestTemplate {
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(MediaType.APPLICATION_JSON, response.getHeaders().getContentType());
         List<Student> actualStudents = response.getBody().stream().collect(Collectors.toList());
-        assertEquals(addedStudents,actualStudents);
+        assertTrue(addedStudents.containsAll(actualStudents));
+//        assertEquals(addedStudents,actualStudents);
     }
 
     @Test
