@@ -4,6 +4,7 @@ package ru.hogwards.school.controllers;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.hogwards.school.model.Faculty;
 import ru.hogwards.school.model.Student;
 import ru.hogwards.school.services.StudentService;
 
@@ -30,6 +31,18 @@ public class StudentController {
     }
 
     @GetMapping
+    public ResponseEntity<Collection<Student>> findStudent(@RequestParam(required = false) Integer min,
+                                                           @RequestParam(required = false) Integer max) {
+
+        if (min > 0 && max > 0 && max >= min) {
+            return ResponseEntity.ok(studentService.findByAgeBetween(min, max));
+        }
+
+
+        return ResponseEntity.ok(studentService.getAllStudents());
+    }
+
+    @GetMapping("/all")
     public ResponseEntity<Collection<Student>> getAllStudents() {
         return ResponseEntity.ok(studentService.getAllStudents());
     }
@@ -46,19 +59,27 @@ public class StudentController {
     public ResponseEntity<Student> editStudent(@RequestBody Student student) {
         Student foundedStudent = studentService.editStudent(student);
         if (foundedStudent == null) {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
         return ResponseEntity.ok(foundedStudent);
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Student> deleteStudent(@PathVariable Long id) {
-        return new ResponseEntity<>(studentService.deleteStudent(id), HttpStatus.OK);
+    public ResponseEntity deleteStudent(@PathVariable Long id) {
+        studentService.deleteStudent(id);
+        return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/ageFilter/{age}")
-    public ResponseEntity<Collection<Student>> getStudentByAge(@PathVariable int age) {
-        return ResponseEntity.ok(studentService.getStudentsByAge(age));
+    @GetMapping ("/facultyOfStudent/{id}")
+    public Faculty findFaculty (@PathVariable long id){
+        return studentService.findFacultyOfStudent(id);
     }
+
+
+
+//    @GetMapping("/ageFilter/{age}")
+//    public ResponseEntity<Collection<Student>> getStudentByAge(@PathVariable int age) {
+//        return ResponseEntity.ok(studentService.getStudentsByAge(age));
+//    }
 
 }
